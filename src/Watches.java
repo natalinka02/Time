@@ -67,10 +67,8 @@ public class Watches {
 	private void advanceDate(int hoursMinutesSeconds, int advanceSeconds) {
 		int advanceDays = (hoursMinutesSeconds + advanceSeconds) / SECONDS_IN_A_DAY;
 		advanceSeconds -= advanceDays * SECONDS_IN_A_DAY;
-
 		while (true) {
 			int daysInAMonth = getDaysInAMonth(this.month);
-
 			if ((advanceDays + this.day) <= daysInAMonth) {
 				this.day += advanceDays;
 				break;
@@ -84,7 +82,6 @@ public class Watches {
 
 	void tickTock(int advanceSeconds) {
 		int hoursMinutesSeconds = this.hours * 3600 + this.minutes * 60 + this.seconds;
-
 		if ((hoursMinutesSeconds + advanceSeconds) <= SECONDS_IN_A_DAY)
 			return;
 		advanceDate(hoursMinutesSeconds, advanceSeconds);
