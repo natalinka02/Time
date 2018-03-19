@@ -93,17 +93,15 @@ public class Watches {
 		}
 	}
 
-	private void advanceDate(int advanceDays) {
-		while (true) {
-			int daysInAMonth = getDaysInAMonth(this.month);
-			
-			if ((advanceDays + this.day) <= daysInAMonth) {
-				this.day += advanceDays;
-				break;
-			} else {
-				advanceMonth();
-				advanceDays -= daysInAMonth - this.day;
-				this.day = 0;
-			}
+	public void tickTock(int advanceSeconds) {
+		int hoursMinutesSeconds = this.hours * 3600 + this.minutes * 60 + this.seconds;
+		
+		int advanceDays = (hoursMinutesSeconds + advanceSeconds) / SECONDS_IN_A_DAY;
+		
+		advanceTime((hoursMinutesSeconds + advanceSeconds) - (advanceDays * SECONDS_IN_A_DAY));	
+		
+		if (advanceDays > 0) {
+			advanceDate(advanceDays);
 		}
 	}
+}
