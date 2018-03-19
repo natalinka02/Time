@@ -20,9 +20,9 @@ public class Watches {
 	}
 
 	public void setTime(int hours, int minutes, int seconds) {
-		this.hours = hours;
-		this.minutes = minutes;
-		this.seconds = seconds;
+		if (hours >= 1 && hours <= 24) this.hours = hours;
+		if (minutes >= 1 && minutes <= 60) this.minutes = minutes;
+		if (seconds >= 1 && seconds <= 60) this.seconds = seconds;
 	}
 
 	public void setDate(int year, int month, int day) {
@@ -64,11 +64,24 @@ public class Watches {
 		}
 	}
 
-	private void advanceDate(int hoursMinutesSeconds, int advanceSeconds) {
-		int advanceDays = (hoursMinutesSeconds + advanceSeconds) / SECONDS_IN_A_DAY;
-		advanceSeconds -= advanceDays * SECONDS_IN_A_DAY;
+	private void advanceTime(int advanceSeconds) {
+		if (advanceSeconds > 3600) {
+			this.hours = advanceSeconds / 3600;
+			advanceSeconds -= this.hours * 3600;
+		}
+		
+		if (advanceSeconds > 60) {
+			this.minutes = advanceSeconds / 60;
+			advanceSeconds -= this.minutes * 60;
+		}
+		
+		this.seconds = advanceSeconds;
+	}
+	
+	private void advanceDate(int advanceDays) {
 		while (true) {
 			int daysInAMonth = getDaysInAMonth(this.month);
+			
 			if ((advanceDays + this.day) <= daysInAMonth) {
 				this.day += advanceDays;
 				break;
@@ -80,10 +93,17 @@ public class Watches {
 		}
 	}
 
-	void tickTock(int advanceSeconds) {
-		int hoursMinutesSeconds = this.hours * 3600 + this.minutes * 60 + this.seconds;
-		if ((hoursMinutesSeconds + advanceSeconds) <= SECONDS_IN_A_DAY)
-			return;
-		advanceDate(hoursMinutesSeconds, advanceSeconds);
+	private void advanceDate(int advanceDays) {
+		while (true) {
+			int daysInAMonth = getDaysInAMonth(this.month);
+			
+			if ((advanceDays + this.day) <= daysInAMonth) {
+				this.day += advanceDays;
+				break;
+			} else {
+				advanceMonth();
+				advanceDays -= daysInAMonth - this.day;
+				this.day = 0;
+			}
+		}
 	}
-}
