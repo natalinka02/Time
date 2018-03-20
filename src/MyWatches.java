@@ -25,6 +25,7 @@ public class MyWatches {
 		casio.setTime(Integer.parseInt(hours),
 				Integer.parseInt(minutes),
 				Integer.parseInt(seconds));
+		//commit
 		
 		System.out.println("Your date/time at your watches is:");
 		System.out.println(casio.getDate() + " " + casio.getTime());
